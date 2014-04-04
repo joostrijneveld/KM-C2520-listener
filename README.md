@@ -1,8 +1,8 @@
-## Scanner daemon for the Kyocera Mita 2530
+## Scanner daemon for the Kyocera Mita C2520
 
 This is work in progress, and not yet usable at all.
 
-This project is an attempt to provide a listener for the Kyocera Mita 2530 that runs on an Intel Mac platform. The original OSX listener as provided by Kyocera Mita (found [here](http://www.kyoceradocumentsolutions.eu/index/service/dlc.false.driver.KM2530._.EN.html)) was only compiled for the PowerPC platform, and no longer works on OS X 10.7 and onwards.
+This project is an attempt to provide a listener for the Kyocera Mita C2520 that runs on an Intel Mac platform. The original OSX listener as provided by Kyocera Mita (found [here](http://www.kyoceradocumentsolutions.eu/index/service/dlc.false.driver.KMC2520._.EN.html)) was only compiled for the PowerPC platform, and no longer works on OS X 10.7 and onwards.
 
 Currently it only runs as a one-shot Python script that simulates network interaction according to the protocol that the scanner seems to understand. The PDFs it extracts from the received traffic are not yet flawless, it is not yet robust against cancellation and interruptions and leaves the scanner is an erroneous state after execution.
 
