@@ -14,7 +14,7 @@ try:
 	f.read(2) # clean up the accidental two nullbytes
 	while byte != "" or not i:
 		byte = f.read(2)
-		if byte == "\x60\x00" and c < 4:
+		if byte == "\x60\x00":
 			print i-mark
 			if i-mark == 1460*16+1218 or not mark: # after each set of 16 x 1460 bytes, 1218 is received
 				c += 1
