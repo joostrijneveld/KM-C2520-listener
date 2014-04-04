@@ -12,20 +12,19 @@ try:
 	mark = 0
 	c = 0
 	f.read(2) # clean up the accidental two nullbytes
+	f.read(2) # clean up the first size indicator
 	while byte != "" or not i:
 		byte = f.read(2)
-		if byte == "\x60\x00":
-			print i-mark
-			if i-mark == 1460*16+1218 or not mark: # after each set of 16 x 1460 bytes, 1218 is received
-				c += 1
-				mark = i
-				i += 2
-				continue
+		i += 2
+		if i-mark == 1460*16+1218: # after each block, skip new size indicator
+			print "{:02x} {:02x}".format(*map(ord, byte))
+			c += 1
+			mark = i
+			continue
 		f2.write(byte)
 		buff8.extend(byte)
 		if "".join(list(buff8)[2:]) == "%%EOF\n":
 			break # prevent noise at the end, after EOF
-		i += 2
 	print buff8
 	print c
 finally:
