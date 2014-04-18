@@ -50,6 +50,7 @@ data = conn.recv(1024) # 86 bytes. this is the first difference in the second co
 # this data contains the file name we're going to scan to! Perhaps extract?
 print 'recv 3', len(data), data
 f = open('output.pdf','w')
+conn.recv(2) # two initial nullbytes
 while True:
     data = conn.recv(1024)
     if len(data) < 10:

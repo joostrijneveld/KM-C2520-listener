@@ -11,7 +11,7 @@ try:
 	i = 0
 	mark = 0
 	c = 0
-	f.read(2) # clean up the accidental two nullbytes
+	# f.read(2) # clean up the accidental two nullbytes
 	f.read(2) # clean up the first size indicator
 	while byte != "" or not i:
 		byte = f.read(2)
