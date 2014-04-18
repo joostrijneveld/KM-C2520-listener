@@ -50,20 +50,40 @@ data = conn.recv(1024) # 86 bytes. this is the first difference in the second co
 # this data contains the file name we're going to scan to! Perhaps extract?
 print 'recv 3', len(data), data
 f = open('output.pdf','w')
+debug = open('debug','w')
 conn.recv(2) # two initial nullbytes
+remainingblock = 0
 while True:
     data = conn.recv(1024)
-    if len(data) < 10:
-        print len(data), type(data), bytearray(data)
-    if data == '\x00\x04\x30\x02\x00\x00': #and previous data was 0430020000 for safetycheck reasons
+    debug.write(data)
+    if data == '\x00\x04\x30\x02\x00\x00':
         print 'found closing string'
         break
     if len(data) == 0:
-        print 'found zero'
-        break
-    f.write(data)
-    print 'Packet received:',len(data)
+        raise Exception("Found zero data string.")
+    if remainingblock == 0:
+        remainingblock = data[:2]
+        data = data[2:]
+        print remainingblock.encode('hex'), int(remainingblock.encode('hex'), 16)
+        remainingblock = int(remainingblock.encode('hex'), 16)
+    if len(data) > remainingblock:
+        raise Exception("Assumed that the protocol did split packets.")
+        # print '#', len(data), remainingblock
+        # if len(data) == remainingblock+1:
+        #     data += conn.recv(1) # only received half of the next size indicator
+        # f.write(data[:remainingblock])
+        # rightdata = data[remainingblock+2:]
+        # f.write(rightdata)
+        # nextlen = data[remainingblock:remainingblock+2]
+        # print data.encode('hex')
+        # print nextlen.encode('hex'), int(nextlen.encode('hex'), 16)
+        # remainingblock = int(nextlen.encode('hex'), 16) + 2 - len(rightdata)
+    else:
+        remainingblock -= len(data)
+        f.write(data)
+    # print 'Packet received:',len(data)
 f.close()
+debug.close()
 
 # sends two more packages after the EOF before expecting a reply
 # this does not really work correctly yet, as it triggers errors on the machine
