@@ -1,26 +1,17 @@
 ## Scanner daemon for the Kyocera Mita C2520
 
-This is work in progress, and not yet usable at all.
+This is work in progress, and might prove to be unstable.
+
+Current version: 1.0.0
 
 This project is an attempt to provide a listener for the Kyocera Mita C2520 that runs on an Intel Mac platform. The original OSX listener as provided by Kyocera Mita (found [here](http://www.kyoceradocumentsolutions.eu/index/service/dlc.false.driver.KMC2520._.EN.html)) was only compiled for the PowerPC platform, and no longer works on OS X 10.7 and onwards.
 
-Currently it only runs as a one-shot Python script that simulates network interaction according to the protocol that the scanner seems to understand. The PDFs it extracts from the received traffic are not yet flawless (but a clean-script is included), it is not yet robust against cancellation and interruptions and leaves the scanner is an erroneous state after execution.
+Currently it can be directly executed or run via launchctl on the background. This last way is preferred, as this ensures that the script is started when OSX starts. The script is still very rough around the edges, and might lead to unexpected errors. In this case, it does close somewhat cleanly and continues listening for a new attempt.
 
-The file `scannerscript.py` provides the listener, and `clean.py` cleans up the output file as provided by the listener. These should be merged.
+### Installation
 
-One might say it is pre-alpha.
+To obtain the required files, either clone this repository or download the [latest release](https://github.com/joostrijneveld/KM-C2520-listener/releases).
 
-### TODO
-* Combine listener and cleaner
-* Properly close the interaction
-* Provide robustness against input other than the happy path
-* Run as a system daemon
-* Adhere to specified file names as sent by the scanner
+Simply run `INSTALL.sh` from the command-line. This script places the Python script in `/usr/local/bin`, adds the configuration file to the user's launchd library and loads the configuration file.
 
-### Notes
-Currently the PDF contains the following issues:
-
-* Each block of 16x1460+1218 bytes is prefixed with a size indicator
-* The file starts with two null bytes that need to be ignored
-
-Both these issues are fixed by the clean.py file. Additionally, clean.py drops bytes that are written past the EOF, but this is no longer an issue with the current listener.
+To undo the above, run `UNINSTALL.sh`.
