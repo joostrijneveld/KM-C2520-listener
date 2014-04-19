@@ -1,3 +1,5 @@
+#! /usr/bin/python
+
 import socket, sys, os
 
 HOST = ''    # Symbolic name meaning the local host
