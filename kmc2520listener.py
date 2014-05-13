@@ -4,7 +4,7 @@ import socket, sys, os
 
 HOST = ''    # Symbolic name meaning the local host
 PORT = 37100 # Arbitrary non-privileged port dictated by the scanner daemon
-PATH = '~/scans van kopieerapparaat/' # destination to write files to
+PATH = '~/Documents/scans van kopieerapparaat/' # destination to write files to
 
 PATH = os.path.expanduser(PATH)
 if not os.path.exists(PATH):
